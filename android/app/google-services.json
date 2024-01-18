@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "990438756842",
+    "project_id": "edu-eduventure",
+    "storage_bucket": "edu-eduventure.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:990438756842:android:865a03466a1b45042ce293",
+        "android_client_info": {
+          "package_name": "com.anurag.eduventure"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "990438756842-qh9giordfj8t80imivbmf8uf04qhj95h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3ScSOMeHXSA7-_U3RXFOIook39Zpp_4w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "990438756842-qh9giordfj8t80imivbmf8uf04qhj95h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
