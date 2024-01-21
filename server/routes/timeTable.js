@@ -1,9 +1,10 @@
 const express = require('express');
 const TimeTableModel = require('../models/timeTableModel');
+const auth = require('../middlewares/auth');
 const timeTableRouter = express.Router();
 
 //Add TimeTable
-timeTableRouter.post("/api/addTimeTable",async function(req, res){
+timeTableRouter.post("/api/addTimeTable", auth, async function(req, res){
     try {
         const {semester, branch, dayName,  subName, subCode, facultyName, startTime, endTime } = req.body;
 
@@ -29,7 +30,7 @@ timeTableRouter.post("/api/addTimeTable",async function(req, res){
  });
 
  ///Get All TimeTable
- timeTableRouter.get('/api/getAllTimeTable', async (req, res)=> {
+ timeTableRouter.get('/api/getAllTimeTable', auth, async (req, res)=> {
     try {
         const timeTable = await TimeTableModel.find();
         res.json({"status": true, timeTable});
@@ -39,7 +40,7 @@ timeTableRouter.post("/api/addTimeTable",async function(req, res){
 });
 
 //Delete TimeTable
-timeTableRouter.post("/api/deleteTimeTable", async (req, res) => {
+timeTableRouter.post("/api/deleteTimeTable", auth, async (req, res) => {
     try {
       const { timeTableId } = req.body;
   

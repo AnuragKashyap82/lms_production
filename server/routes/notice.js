@@ -1,9 +1,10 @@
 const express = require('express');
 const NoticeModel = require('../models/noticeModel');
+const auth = require('../middlewares/auth');
 const noticeRouter = express.Router();
 
 //Add Notice Id
-noticeRouter.post("/api/addNotice",async function(req, res){
+noticeRouter.post("/api/addNotice", auth, async function(req, res){
     try {
         const {noticeNo, noticeTitle, noticeUrl} = req.body;
 
@@ -28,12 +29,12 @@ noticeRouter.post("/api/addNotice",async function(req, res){
         res.json({"status": true, noticeModel});
     } catch (error) {
         res.status(500)
-        .json({"status": false,msg: error.message});
+        .json({"status": false, msg: error.message});
     }
  });
 
  ///Get All Notice
- noticeRouter.get('/api/getAllNotice', async (req, res)=> {
+ noticeRouter.get('/api/getAllNotice', auth, async (req, res)=> {
     try {
         const notice = await NoticeModel.find();
         res.json({"status": true, notice});
@@ -43,7 +44,7 @@ noticeRouter.post("/api/addNotice",async function(req, res){
 });
 
 //Delete Notice
-noticeRouter.post("/api/deleteNotice", async (req, res) => {
+noticeRouter.post("/api/deleteNotice", auth, async (req, res) => {
     try {
       const { noticeId } = req.body;
   

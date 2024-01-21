@@ -1,9 +1,10 @@
 const express = require('express');
 const MaterialModel = require('../models/materialModel');
+const auth = require('../middlewares/auth');
 const materialRouter = express.Router();
 
 //Add Material
-materialRouter.post("/api/addMaterial",async function(req, res){
+materialRouter.post("/api/addMaterial", auth, async function(req, res){
     try {
         const {branch, materialUrl, semester, subName, subTopic} = req.body;
 
@@ -35,7 +36,7 @@ materialRouter.post("/api/addMaterial",async function(req, res){
  });
 
  ///Get All Material
- materialRouter.get('/api/getAllMaterial', async (req, res)=> {
+ materialRouter.get('/api/getAllMaterial',auth, async (req, res)=> {
     try {
         const material = await MaterialModel.find();
         res.json({"status": true, material});
@@ -45,7 +46,7 @@ materialRouter.post("/api/addMaterial",async function(req, res){
 });
 
 //Delete Material
-materialRouter.post("/api/deleteMaterial", async (req, res) => {
+materialRouter.post("/api/deleteMaterial",auth, async (req, res) => {
     try {
       const { materialId } = req.body;
   

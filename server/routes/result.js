@@ -1,9 +1,10 @@
 const express = require('express');
 const ResultModel = require('../models/resultModel');
+const auth = require('../middlewares/auth');
 const resultRouter = express.Router();
 
 //Add Result
-resultRouter.post("/api/addResult",async function(req, res){
+resultRouter.post("/api/addResult", auth, async function(req, res){
     try {
         const {branch, resultUrl, semester, resultYear} = req.body;
 
@@ -34,7 +35,7 @@ resultRouter.post("/api/addResult",async function(req, res){
  });
 
  ///Get All Result
- resultRouter.get('/api/getAllResult', async (req, res)=> {
+ resultRouter.get('/api/getAllResult', auth, async (req, res)=> {
     try {
         const result = await ResultModel.find();
         res.json({"status": true, result});
@@ -44,7 +45,7 @@ resultRouter.post("/api/addResult",async function(req, res){
 });
 
 //Delete Result
-resultRouter.post("/api/deleteResult", async (req, res) => {
+resultRouter.post("/api/deleteResult", auth, async (req, res) => {
     try {
       const { resultId } = req.body;
   

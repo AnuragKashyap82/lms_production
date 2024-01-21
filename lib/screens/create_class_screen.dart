@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eduventure/Controller/user_controller.dart';
 import 'package:eduventure/utils/global_variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +16,10 @@ class CreateClassScreen extends StatefulWidget {
 
 class _CreateClassScreenState extends State<CreateClassScreen> {
   final classroomController = Get.put(ClassroomController());
+  final userController = Get.put(UserController());
   TextEditingController _subName = TextEditingController();
   TextEditingController _className = TextEditingController();
   bool _isLoading = false;
-  var userData = {};
 
   @override
   void dispose() {
@@ -32,20 +33,6 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getData();
-  }
-
-  getData() async {
-    try {
-      var userSnap = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(FirebaseAuth.instance.currentUser?.uid)
-          .get();
-
-      userData = userSnap.data()!;
-    } catch (e) {
-      showSnackBar(e.toString(), context);
-    }
   }
 
   @override
@@ -67,7 +54,7 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
           'className': _className.text,
           'subjectName': _subName.text,
           'uid': FirebaseAuth.instance.currentUser?.uid,
-          'name': userData['name'],
+          'name': userController.userData().name,
         };
         await reference.set(data).whenComplete(() {
           setState(() {
@@ -94,7 +81,7 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
           'className': _className.text,
           'subjectName': _subName.text,
           'uid': FirebaseAuth.instance.currentUser?.uid,
-          'name': userData['name'],
+          'name': userController.userData().name,
         };
         await ref.set(data).whenComplete(() {
           joinYourSelf();

@@ -1,9 +1,10 @@
 const express = require('express');
 const StudentIdModel = require('../models/student_id_model');
+const auth = require('../middlewares/auth');
 const studentIdRouter = express.Router();
 
 //Add Student Id
-studentIdRouter.post("/api/addStudentId",async function(req, res){
+studentIdRouter.post("/api/addStudentId", auth, async function(req, res){
     try {
         const {studentId, email, userType} = req.body;
 
