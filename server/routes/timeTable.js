@@ -56,6 +56,7 @@ timeTableRouter.post("/api/deleteTimeTable", async (req, res) => {
       res.json({"status": true, timeTable});
     } catch (e) {
       res.status(500).json({ "status": false, error: e.message });
+      
     }
   });
  
