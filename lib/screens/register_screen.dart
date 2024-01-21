@@ -49,7 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       await user.sendEmailVerification();
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => VerifyEmailScreen()),
+        MaterialPageRoute(builder: (context) => VerifyEmailScreen(),  maintainState: false),
       );
     }
   }
@@ -73,7 +73,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         if(widget.email == "test@user.com"){
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
+            MaterialPageRoute(builder: (context) => HomeScreen(), maintainState: false),
           );
         }else{
           sendVerificationEmail();

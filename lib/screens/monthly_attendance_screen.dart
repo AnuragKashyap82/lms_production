@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduventure/Model/classroom_model.dart';
 import 'package:eduventure/widgets/atten_percent_widgets.dart';
-import 'package:eduventure/widgets/students_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../utils/colors.dart';
-import '../widgets/students_report_widgets.dart';
 
 class MonthlyAttendanceScreen extends StatefulWidget {
   final ClassroomModel classroomModel;
@@ -96,14 +94,16 @@ class _MonthlyAttendanceScreenState extends State<MonthlyAttendanceScreen> {
                     .collection("classroom")
                     .doc(widget.classroomModel.classCode)
                     .collection("students")
+                    .orderBy("studentId", descending: false)
                     .snapshots(),
                 builder: (context,
                     AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                     snapshot) {
                   if (!snapshot.hasData) {
-                    return const Center(
+                    return  Center(
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
+                        color: colorPrimary,
                       ),
                     );
                   }

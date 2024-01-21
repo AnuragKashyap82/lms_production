@@ -364,7 +364,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _isLogout = false;
             });
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => LoginScreen()));
+                context, MaterialPageRoute(builder: (_) => LoginScreen(), maintainState: false));
           });
         },
         child: _isLogout?CircularProgressIndicator(strokeWidth: 2, color: colorBlack,):Icon(Icons.logout, color: colorBlack,),

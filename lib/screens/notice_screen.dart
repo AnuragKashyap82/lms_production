@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduventure/Controller/notice_controller.dart';
 import 'package:eduventure/screens/add_notice_screen.dart';
 import 'package:eduventure/screens/notice_view_screen.dart';
@@ -41,7 +40,6 @@ class _NoticeScreenState extends State<NoticeScreen> {
         _isUser = true;
       });
     }
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorPrimary,
@@ -57,8 +55,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
       Obx(() {
         if (noticeController.isLoading.value)
           return  Center(
-            child:
-                CircularProgressIndicator(strokeWidth: 2, color: colorPrimary),
+            child: CircularProgressIndicator(strokeWidth: 2, color: colorPrimary),
           );
         if (noticeController.allNotices.isEmpty) {
           return Center(

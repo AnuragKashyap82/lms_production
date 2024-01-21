@@ -52,12 +52,8 @@ class FireStoreMethods {
 
     await firebaseFirestore.collection("classroom").doc(classCode)
         .collection("Attendance").doc("$date-$month-$year").collection("Students").doc(uid)
-        .set({
-      "date": "$date-$month-$year",
-      "month": "$month",
-      "year": "$year",
+        .update({
       "attendance": "present",
-      "uid": "$uid",
     });
   }
 
@@ -72,12 +68,8 @@ class FireStoreMethods {
 
     await firebaseFirestore.collection("classroom").doc(classCode)
         .collection("Attendance").doc("$date-$month-$year").collection("Students").doc(uid)
-        .set({
-      "date": "$date-$month-$year",
-      "month": "$month",
-      "year": "$year",
+        .update({
       "attendance": "absent",
-      "uid": "$uid",
     });
   }
 

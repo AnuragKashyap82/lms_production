@@ -59,7 +59,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         });
         if (FirebaseAuth.instance.currentUser!.emailVerified) {
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => HomeScreen()));
+              context, MaterialPageRoute(builder: (context) => HomeScreen(),  maintainState: false));
         } else {
           setState(() {
             _isLoadingDetails = false;
@@ -134,7 +134,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
           onPressed: () async {
             FirebaseAuth.instance.signOut().then((value) {
               Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (_) => LoginScreen()));
+                  context, MaterialPageRoute(builder: (_) => LoginScreen(),  maintainState: false));
             });
           },
           backgroundColor: colorPrimary,

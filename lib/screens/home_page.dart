@@ -211,8 +211,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                      const ProfileScreen()));
                                       },
                                       child: Container(
-                                        height: 44,
-                                        width: 44,
+                                        height: 46,
+                                        width: 46,
                                         decoration: BoxDecoration(
                                             color: colorPrimary,
                                             shape: BoxShape.circle),
@@ -229,8 +229,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           .photoUrl),
                                                 )
                                               : Icon(
-                                                  Icons.person,
-                                                  color: colorPrimary,
+                                                  Icons.person_pin,
+                                                  color: colorWhite,
                                                   size: 20,
                                                 ),
                                         ),

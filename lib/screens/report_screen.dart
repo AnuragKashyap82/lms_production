@@ -122,14 +122,16 @@ class _ReportScreenState extends State<ReportScreen> {
                       .collection("Attendance")
                       .doc(pickedDate)
                       .collection("Students")
+                      .orderBy("studentId", descending: false)
                       .snapshots(),
                   builder: (context,
                       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                           snapshot) {
                     if (!snapshot.hasData) {
-                      return const Center(
+                      return  Center(
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
+                          color: colorPrimary,
                         ),
                       );
                     }

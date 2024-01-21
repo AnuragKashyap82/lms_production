@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../Controller/classroom_controller.dart';
+import '../Controller/user_controller.dart';
 import '../utils/colors.dart';
 
 class JoinClassScreen extends StatefulWidget {
@@ -19,9 +20,13 @@ class JoinClassScreen extends StatefulWidget {
 class _JoinClassScreenState extends State<JoinClassScreen> {
   final classroomController = Get.put(ClassroomController());
   TextEditingController _classCode = TextEditingController();
+
+  final userController = Get.put(UserController());
+
   bool _isLoading = false;
   var userData = {};
   var teacherNameData = {};
+
 
   @override
   void dispose() {
@@ -70,7 +75,9 @@ class _JoinClassScreenState extends State<JoinClassScreen> {
     });
     try {
       Map<String, dynamic> data = {
-        'uid': FirebaseAuth.instance.currentUser?.uid, // Updating Document Reference
+        'uid': FirebaseAuth.instance.currentUser?.uid,
+        'name': userController.userData().name,
+        'studentId': userController.userData().studentId,
       };
       await reference.set(data).whenComplete(() {
         join();

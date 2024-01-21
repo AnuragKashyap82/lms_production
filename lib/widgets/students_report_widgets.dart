@@ -62,7 +62,7 @@ class _StudentReportsWidgetsState extends State<StudentReportsWidgets> {
   Widget build(BuildContext context) {
     log("student widget gets called!!!");
     return _isLoading
-        ? Container()
+        ? SizedBox()
         : Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0),
       child: Row(

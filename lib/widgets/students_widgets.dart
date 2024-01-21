@@ -17,173 +17,95 @@ class StudentWidgets extends StatefulWidget {
 }
 
 class _StudentWidgetsState extends State<StudentWidgets> {
-  bool _isLoading = false;
-  bool _isPresent = false;
-  bool _isAbsent = true;
-  bool _isMarking = false;
-  var _studentsData = {};
   String absentPresent = "N/A";
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setState(() {
-      _isLoading = true;
-    });
-    loadUserDetails();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-  void loadUserDetails() async {
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      var userSnap = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(widget.snap['uid'])
-          .get();
-      if (userSnap.exists) {
-        setState(() {
-          _studentsData = userSnap.data()!;
-        });
-      } else {}
-      setState(() {});
-    } catch (e) {
-      showSnackBar(e.toString(), context);
-    }
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     log("student widget gets called!!!");
-    return _isLoading
-        ? Container()
-        : Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 8),
-            title: Text(
-              "${_studentsData['name']}",
-              style: TextStyle(
-                  fontSize: 16,
-                  color: colorBlack,
-                  fontWeight: FontWeight.w600),
-            ),
-            subtitle:Text(
-              "${_studentsData['studentId']}",
-              style: TextStyle(
-                  fontSize: 12,
-                  color: colorBlack.withOpacity(0.54),
-                  fontWeight: FontWeight.normal),
-            ),
-            trailing: InkWell(
-                onTap: () async {
-                  if (_isAbsent) {
-                    setState(() {
-                      _isMarking = true;
-                    });
-                    await FireStoreMethods().markAttendancePresent(
-                        classCode: widget.classCode,
-                        uid: _studentsData['uid']).then((value) {
-                      setState(() {
-                        absentPresent = "P";
-                        _isPresent = true;
-                        _isAbsent = false;
-                        _isMarking = false;
+    return  Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${widget.snap['name']}",
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: colorBlack,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      "${widget.snap['studentId']}",
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: colorBlack.withOpacity(0.54),
+                          fontWeight: FontWeight.normal),
+                    ),
+                  ],
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    if (widget.snap['attendance'] == "absent") {
+                      await FireStoreMethods()
+                          .markAttendancePresent(
+                              classCode: widget.classCode,
+                              uid: widget.snap['uid'])
+                          .then((value) {
+                        setState(() {
+                          // absentPresent = "P";
+
+                        });
                       });
-                    });
-                  } else {
-                    setState(() {
-                      _isMarking = true;
-                    });
-                    FireStoreMethods()
-                        .markAttendanceAbsent(
-                        classCode: widget.classCode, uid: _studentsData['uid'])
-                        .then((value) {
-                      setState(() {
-                        absentPresent = "A";
-                        _isPresent = false;
-                        _isAbsent = true;
-                        _isMarking = false;
+                    } else if(widget.snap['attendance'] == "present") {
+                      FireStoreMethods()
+                          .markAttendanceAbsent(
+                              classCode: widget.classCode,
+                              uid: widget.snap['uid'])
+                          .then((value) {
+                        setState(() {
+                          // absentPresent = "A";
+                        });
                       });
-                    });
-                  }
-                },
-                child: PhysicalModel(
-                  color: colorWhite,
-                  elevation: 7,
-                  shadowColor: colorPrimary,
-                  borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    width: 30,
-                    height: 30,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                            color: colorBlack.withOpacity(0.54))),
-                    child: Center(
-                        child:
-                        _isMarking
-                            ? CircularProgressIndicator(strokeWidth: 2,)
-                            :
-                        Text(
-                          absentPresent,
+                    }else{
+                      showSnackBar("${widget.snap['attendance'] == "present"}", context);
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: PhysicalModel(
+                      color: colorWhite,
+                      elevation: 7,
+                      shadowColor: colorPrimary,
+                      borderRadius: BorderRadius.circular(20),
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                                color: colorBlack.withOpacity(0.54))),
+                        child: Center(
+                            child: Text(
+                          widget.snap['attendance'] == "present" ? "P" : "A",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: _isAbsent ? Colors.red : Colors.green),
+                              color: widget.snap['attendance'] == "present"
+                                  ? Colors.green
+                                  : Colors.red),
                         )),
+                      ),
+                    ),
                   ),
-                )),
-          )
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.start,
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   children: [
-          //     Column(
-          //       mainAxisAlignment: MainAxisAlignment.start,
-          //       crossAxisAlignment: CrossAxisAlignment.start,
-          //       children: [
-          //         Text(
-          //           "${_studentsData['name']}",
-          //           style: TextStyle(
-          //               fontSize: 16,
-          //               color: colorBlack,
-          //               fontWeight: FontWeight.w600),
-          //         ),
-          //         SizedBox(
-          //           height: 4,
-          //         ),
-          //         Text(
-          //           "${_studentsData['studentId']}",
-          //           style: TextStyle(
-          //               fontSize: 12,
-          //               color: colorBlack.withOpacity(0.54),
-          //               fontWeight: FontWeight.normal),
-          //         ),
-          //       ],
-          //     ),
-          //     Padding(
-          //         padding: const EdgeInsets.symmetric(horizontal: 8),
-          //         child:
-          //     )
-          //   ],
-          // ),
-        ],
-      ),
-    );
+                )
+              ],
+            ),
+          );
   }
 }

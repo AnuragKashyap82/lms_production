@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => HomeScreen(), maintainState: false),
         );
       }else{
         if (firebaseAuth.currentUser!.emailVerified) {
@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
           });
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
+            MaterialPageRoute(builder: (context) => HomeScreen(), maintainState: false),
           );
         } else {
           setState(() {
@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
           showSnackBar("Email id not Verified!!", context);
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => VerifyEmailScreen()),
+            MaterialPageRoute(builder: (context) => VerifyEmailScreen(), maintainState: false),
           );
         }
       }
