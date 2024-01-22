@@ -1,7 +1,8 @@
 const express = require("express");
 const bcryptjs = require("bcryptjs");
-const User = require("../models/user");
 const jwt  = require("jsonwebtoken");
+const auth = require('../middlewares/auth');
+const User = require('../models/user');
 const authRouter = express.Router();
 
 
@@ -31,7 +32,8 @@ authRouter.post("/api/signup", async(req, res)=>{
             password: hasedPassword,
             name,
             userType,
-            studentId
+            studentId,
+            isVerified: false
         });
         user = await user.save();
         res.json({"status": true, user});
@@ -61,5 +63,64 @@ try {
     res.status(500).json({"status": false,error :error.message});
 }
 });
+
+///Get My Profile Data
+authRouter.get("/api/getMyProfile", auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user);
+
+        // Check if user is found
+        if (!user) {
+            return res.status(400).json({
+                "status": false,
+                msg: "User not found"
+            });
+        }
+
+        res.json({
+            "status": true,
+            user
+        });
+
+    } catch (e) {
+        res.status(500).json({
+            "status": false,
+            error: e.message
+        });
+    }
+});
+
+//Update Profile
+authRouter.put("/api/updateProfile",auth, async (req, res) => {
+    try {
+    
+        const { name, branch, completeAddress, dob, photoUrl, regNo, seatType, semester, session, token } = req.body;
+
+        // Check if the user exists
+        const user = await User.findById(req.user);
+        if (!user) {
+            return res.status(404).json({ "status": false, error: 'User not found' });
+        }
+        // Update user fields
+        user.name = name || user.name;
+        user.branch = branch || user.branch;
+        user.completeAddress = completeAddress || user.completeAddress;
+        user.dob = dob || user.dob;
+        user.photoUrl = photoUrl || user.photoUrl;
+        user.regNo = regNo || user.regNo;
+        user.seatType = seatType || user.seatType;
+        user.semester = semester || user.semester;
+        user.session = session || user.session;
+        user.token = token || user.token;
+
+        // Save the updated user
+        await user.save();
+
+        res.json({ "status": true, msg: "User profile updated successfully", user });
+    } catch (error) {
+        res.status(500).json({ "status": false, msg: error.message });
+    }
+});
+
 
 module.exports = authRouter;

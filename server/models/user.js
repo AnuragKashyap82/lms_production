@@ -33,8 +33,57 @@ const userSchema = mongoose.Schema({
         type: String,
         trim: true,
     },
+    isVerified: {
+        required: true,
+        type: Boolean,
+        trim: true,
+    },
     userType: {
         required: true,
+        type: String,
+        trim: true,
+    },
+    branch: {
+        type: String,
+        trim: true,
+    },
+    semester: {
+        
+        type: String,
+        trim: true,
+    },
+    completeAddress: {
+        
+        type: String,
+        trim: true,
+    },
+    dob: {
+       
+        type: String,
+        trim: true,
+    },
+    photoUrl: {
+        
+        type: String,
+        trim: true,
+    },
+    regNo: {
+        
+        type: String,
+        trim: true,
+    },
+    seatType: {
+      
+        type: String,
+        trim: true,
+    },
+    session: {
+      
+        type: String,
+        trim: true,
+    },
+    token: {
+        
         type: String,
         trim: true,
     },

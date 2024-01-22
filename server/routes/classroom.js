@@ -2,6 +2,7 @@ const express = require('express');
 const auth = require('../middlewares/auth');
 const {ClassroomModel} = require('../models/classroom_model');
 const User = require('../models/user');
+const PostMsgModel = require('../models/classPostMsgModel');
 const classroomRouter = express.Router();
 
 //Create Classroom
@@ -231,6 +232,104 @@ classroomRouter.post("/api/unenrollClass", auth, async (req, res) => {
         res.json({ "status": true, removedClassroom });
     } catch (e) {
         res.status(500).json({ "status": false, error: e.message });
+    }
+});
+
+//Classroom Post Msg
+classroomRouter.post("/api/classPostMsg", auth, async function(req, res) {
+    try {
+        const { classCode, attachment, classMsg, studentId, isAttachment } = req.body;
+
+        // Check if the classroom with the given classCode exists
+        const classroomFound = await ClassroomModel.findOne({ classCode });
+        if (!classroomFound) {
+            return res.status(400).json({
+                "status": false,
+                msg: "Classroom does not exist!"
+            });
+        }
+
+        // Get the user by ID
+        const userFound = await User.findById(req.user);
+
+        // Check if the user is found
+        if (!userFound) {
+            return res.status(400).json({
+                "status": false,
+                msg: "User not found"
+            });
+        }
+
+        const currentTimestamp = Date.now();
+        const today = new Date();
+
+        const year = today.getFullYear();
+        // Months are zero-based, so we add 1 to get the correct month
+        const month = (today.getMonth() + 1).toString().padStart(2, '0');
+        const day = today.getDate().toString().padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+    
+        let postMsg = new PostMsgModel({
+            _id: currentTimestamp,
+            classCode,
+            classMsg,
+            dateTime: formattedDate,
+            msgId: currentTimestamp,
+            attachment,
+            isAttachment,
+            studentId
+            
+        });
+
+        classroomFound.postMsg.push({
+            "_id": currentTimestamp,
+            postMsg
+        });
+        // Save the updated user
+        await classroomFound.save();
+
+        res.json({
+            "status": true,
+            msg: "Msg Post successfully",
+            postMsg
+        });
+        
+        
+    } catch (error) {
+        res.status(500).json({
+            "status": false,
+            msg: error.message
+        });
+    }
+});
+
+
+///GetAll Classroom Message
+classroomRouter.get("/api/getClassroomAllMessage", auth, async (req, res) => {
+    try {
+        const { classCode } = req.body;
+        const classroom = await ClassroomModel.findById(classCode);
+
+        // Check if user is found
+        if (!classroom) {
+            return res.status(400).json({
+                "status": false,
+                msg: "Classroom not found"
+            });
+        }
+
+        const classMsg = classroom.postMsg;
+
+        res.json({
+            "status": true,
+            classMsg
+        });
+
+    } catch (e) {
+        res.status(500).json({
+            "status": false,
+            error: e.message
+        });
     }
 });
 
