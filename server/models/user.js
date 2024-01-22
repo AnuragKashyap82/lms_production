@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
+const { classroomSchema } = require('./classroom_model');
 
 const userSchema = mongoose.Schema({
+    _id: {
+        type: String, 
+        required: true
+    },
     name: {
         required: true,
         type: String,
@@ -33,6 +38,15 @@ const userSchema = mongoose.Schema({
         type: String,
         trim: true,
     },
+    classroom: [
+        {
+        _id: {
+                type: String, 
+                required: true
+            },
+          classroom: classroomSchema,
+        },
+      ],
 });
 
 const User = mongoose.model("User", userSchema);

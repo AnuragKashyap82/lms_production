@@ -6,11 +6,12 @@ const timeTableRouter = express.Router();
 //Add TimeTable
 timeTableRouter.post("/api/addTimeTable", auth, async function(req, res){
     try {
-        const {semester, branch, dayName,  subName, subCode, facultyName, startTime, endTime } = req.body;
+        const {semester, branch, dayName,  subName, subCode, facultyName, startTime, endTime, studentId } = req.body;
 
         const currentTimestamp = Date.now();
 
         let timeTableModel = new TimeTableModel({
+           _id: studentId,
             branch,
             semester,
             dayName,

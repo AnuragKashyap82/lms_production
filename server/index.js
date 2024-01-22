@@ -6,6 +6,7 @@ const noticeRouter = require("./routes/notice");
 const materialRouter = require("./routes/material");
 const resultRouter = require("./routes/result");
 const timeTableRouter = require("./routes/timeTable");
+const classroomRouter = require("./routes/classroom");
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -17,6 +18,7 @@ app.use(noticeRouter);
 app.use(materialRouter);
 app.use(resultRouter);
 app.use(timeTableRouter);
+app.use(classroomRouter);
 
 const DB = "mongodb+srv://lmsramgarhengineering:Anurag6022@cluster0.oa029sm.mongodb.net/eduventuredb";
 

@@ -6,7 +6,7 @@ const resultRouter = express.Router();
 //Add Result
 resultRouter.post("/api/addResult", auth, async function(req, res){
     try {
-        const {branch, resultUrl, semester, resultYear} = req.body;
+        const {branch, resultUrl, semester, resultYear, studentId} = req.body;
 
         const currentTimestamp = Date.now();
         const today = new Date();
@@ -18,6 +18,7 @@ resultRouter.post("/api/addResult", auth, async function(req, res){
         const formattedDate = `${year}-${month}-${day}`;
 
         let resultModel = new ResultModel({
+          _id: studentId,
             branch,
             resultUrl,
             semester,

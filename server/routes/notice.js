@@ -6,7 +6,7 @@ const noticeRouter = express.Router();
 //Add Notice Id
 noticeRouter.post("/api/addNotice", auth, async function(req, res){
     try {
-        const {noticeNo, noticeTitle, noticeUrl} = req.body;
+        const {noticeNo, noticeTitle, noticeUrl, studentId} = req.body;
 
         const currentTimestamp = Date.now();
         const today = new Date();
@@ -18,6 +18,7 @@ noticeRouter.post("/api/addNotice", auth, async function(req, res){
         const formattedDate = `${year}-${month}-${day}`;
 
         let noticeModel = new NoticeModel({
+            _id: studentId,
             noticeNo,
             noticeTitle,
             noticeUrl,

@@ -1,46 +1,46 @@
 const mongoose = require("mongoose");
+const userSchema = require('./user');
 
-const materialSchema = mongoose.Schema({
+const classroomSchema = mongoose.Schema({
     _id: {
         type: String, 
         required: true
     },
-    materialId: {
+    classCode: {
         required: true,
         type: String,
         trim: true,
     },
-    branch: {
+    className: {
         required: true,
         type: String,
         trim: true,
     },
-    dateTime: {
+    name: {
         required: true,
         type: String,
         trim: true,
     },
-    materialUrl: {
+    subjectName: {
         required: true,
         type: String,
         trim: true,
     },
-    semester: {
+    studentId: {
         required: true,
         type: String,
         trim: true,
     },
-    subName: {
-        required: true,
-        type: String,
-        trim: true,
-    },
-    subTopic: {
-        required: true,
-        type: String,
-        trim: true,
-    },
+    student: [
+        {
+        _id: {
+                type: String, 
+                required: true
+            },
+          student: userSchema,
+        },
+      ],
 });
 
-const MaterialModel = mongoose.model("Materials", materialSchema);
-module.exports = MaterialModel;
+const ClassroomModel = mongoose.model("Classroom", classroomSchema);
+module.exports = {ClassroomModel, classroomSchema};

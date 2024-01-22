@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const timeTableSchema = mongoose.Schema({
+    _id: {
+        type: String, 
+        required: true
+    },
     timeTableId: {
         required: true,
         type: String,

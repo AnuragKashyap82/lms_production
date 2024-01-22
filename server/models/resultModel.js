@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const resultSchema = mongoose.Schema({
+    _id: {
+        type: String, 
+        required: true
+    },
     resultId: {
         required: true,
         type: String,
