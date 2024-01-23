@@ -65,42 +65,46 @@ class _SplashScreenState extends State<SplashScreen> {
           statusBarIconBrightness: Brightness.dark),
     );
 
-    return SafeArea(
-      child: Scaffold(
-        body: _isLoading
-            ? CircularProgressIndicator(
-                color: colorPrimary,
-                strokeWidth: 2,
-              )
-            : Container(
-                height: double.infinity,
-                width: double.infinity,
-                color: colorWhite,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                        width: 220,
-                        height: 220,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25)
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(200),
-                            child: Image.asset("assets/images/logo.png", ))
-                    ),
-                    SizedBox(
-                      height: 26,
-                    ),
-                    Text(
-                      "Eduventure",
-                      style: TextStyle(
-                          color: colorBlack.withOpacity(0.87),
-                          fontSize: 25, fontWeight: FontWeight.w500),
-                    )
-                  ],
-                )),
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.zero,
+        child: AppBar(
+          backgroundColor: colorWhite,
+        ),
       ),
+      body: _isLoading
+          ? CircularProgressIndicator(
+              color: colorPrimary,
+              strokeWidth: 2,
+            )
+          : Container(
+              height: double.infinity,
+              width: double.infinity,
+              color: colorWhite,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                      width: 220,
+                      height: 220,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25)
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(200),
+                          child: Image.asset("assets/images/logo.png", ))
+                  ),
+                  SizedBox(
+                    height: 26,
+                  ),
+                  Text(
+                    "Eduventure",
+                    style: TextStyle(
+                        color: colorBlack.withOpacity(0.87),
+                        fontSize: 25, fontWeight: FontWeight.w500),
+                  )
+                ],
+              )),
     );
   }
 }

@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
-const submissionSchema = require('./submissionModel');
 
-const assignmentSchema = mongoose.Schema({
+const submissionSchema = mongoose.Schema({
     _id: {
         type: String, 
         required: true
@@ -36,7 +35,12 @@ const assignmentSchema = mongoose.Schema({
         type: String,
         trim: true,
     },
-    assignmentUrl: {
+    submissionUrl: {
+        required: true,
+        type: String,
+        trim: true,
+    },
+    marksObtained: {
         required: true,
         type: String,
         trim: true,
@@ -46,19 +50,7 @@ const assignmentSchema = mongoose.Schema({
         type: String,
         trim: true,
     },
-    submission: {
-        type: [mongoose.Schema.Types.Mixed],
-        default: [
-            {
-                _id: {
-                        type: String, 
-                        required: true
-                    },
-                    submission: submissionSchema,
-                },
-        ],
-    },
 });
 
-const AssignmentModel = mongoose.model("Assignment", assignmentSchema);
-module.exports = AssignmentModel;
+const SubmissionModel = mongoose.model("Submission", submissionSchema);
+module.exports = SubmissionModel;
