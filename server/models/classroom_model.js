@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const userSchema = require('./user');
 const postMsgSchema = require('./classPostMsgModel');
 const assignmentSchema = require('./assignmentModel');
+const attendenceSchema = require('./attendenceModel');
 
 const classroomSchema = mongoose.Schema({
     _id: {
@@ -33,15 +34,18 @@ const classroomSchema = mongoose.Schema({
         type: String,
         trim: true,
     },
-    student: [
-        {
-        _id: {
-                type: String, 
-                required: true
-            },
-          student: userSchema,
-        },
-      ],
+      student: {
+        type: [mongoose.Schema.Types.Mixed],
+        default: [
+            {
+                _id: {
+                        type: String, 
+                        required: true
+                    },
+                    student: userSchema,
+                },
+        ],
+    },  
       postMsg: {
         type: [mongoose.Schema.Types.Mixed],
         default: [
@@ -63,6 +67,18 @@ const classroomSchema = mongoose.Schema({
                         required: true
                     },
                     assignment: assignmentSchema,
+                },
+        ],
+    },
+    attendence: {
+        type: [mongoose.Schema.Types.Mixed],
+        default: [
+            {
+                _id: {
+                        type: String, 
+                        required: true
+                    },
+                    attendence: attendenceSchema,
                 },
         ],
     },
