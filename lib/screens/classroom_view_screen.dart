@@ -101,17 +101,25 @@ class _ClassroomViewScreenState extends State<ClassroomViewScreen> {
               },
             ),
           ),
-          Container(
-            height: 60,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: colorPrimary,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                SizedBox(
-                  child: IconButton(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8).copyWith(top: 0),
+            child: Container(
+              height: 60,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: colorPrimary,
+                borderRadius: BorderRadius.circular(30)
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.video_call, color: colorBlack,),
+                    onPressed: () {
+                      showSnackBar("To be integrated!!!", context);
+                    },
+                  ),
+                  IconButton(
                     icon: Icon(Icons.assignment_outlined, color: colorBlack,),
                     onPressed: () {
                       Navigator.push(
@@ -125,9 +133,7 @@ class _ClassroomViewScreenState extends State<ClassroomViewScreen> {
                       );
                     },
                   ),
-                ),
-                SizedBox(
-                  child: IconButton(
+                  IconButton(
                     icon: Icon(Icons.edit_outlined,color: colorBlack),
                     onPressed: () {
                       Navigator.push(
@@ -140,39 +146,29 @@ class _ClassroomViewScreenState extends State<ClassroomViewScreen> {
                       );
                     },
                   ),
-                ),
-                _isTeacher
-                    ? SizedBox(
-                  child: IconButton(
-                    icon: Icon(Icons.mark_as_unread,color: colorBlack),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AttendanceScreen(
-                            classroomModel: widget.classroomModel,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                )
-                    : SizedBox(
-                  child: IconButton(
-                    icon: Icon(Icons.mark_as_unread,color: colorBlack),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyAttendenceReportScreen(
-                            classroomModel: widget.classroomModel,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                )
-              ],
+                  IconButton(
+                        icon: Icon(Icons.mark_as_unread,color: colorBlack),
+                        onPressed: () {
+                          _isTeacher?
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AttendanceScreen(
+                                classroomModel: widget.classroomModel,
+                              ),
+                            ),
+                          ):Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyAttendenceReportScreen(
+                                classroomModel: widget.classroomModel,
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                ],
+              ),
             ),
           ),
         ],

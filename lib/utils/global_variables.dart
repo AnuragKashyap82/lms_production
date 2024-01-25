@@ -20,7 +20,7 @@ showSnackBar(String content, BuildContext context){
             child: Text(
               content,
               style: TextStyle(
-                color: gray02,
+                color: colorBlack,
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
