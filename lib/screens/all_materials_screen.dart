@@ -19,7 +19,7 @@ class AllMaterialsScreen extends StatefulWidget {
 
 class _AllMaterialsScreenState extends State<AllMaterialsScreen> {
 
-  final materialsController = Get.put(MaterialController());
+  MaterialController materialsController = Get.find();
 
   @override
   void initState() {

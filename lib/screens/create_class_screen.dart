@@ -15,8 +15,8 @@ class CreateClassScreen extends StatefulWidget {
 }
 
 class _CreateClassScreenState extends State<CreateClassScreen> {
-  final classroomController = Get.put(ClassroomController());
-  final userController = Get.put(UserController());
+  ClassroomController classroomController = Get.find();
+  final UserController userController = Get.find();
   TextEditingController _subName = TextEditingController();
   TextEditingController _className = TextEditingController();
   bool _isLoading = false;

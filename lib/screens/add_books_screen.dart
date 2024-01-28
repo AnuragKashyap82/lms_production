@@ -17,7 +17,7 @@ class AddBooksScreen extends StatefulWidget {
 
 class _AddBooksScreenState extends State<AddBooksScreen> {
 
-  final booksController = Get.put(BooksController());
+   BooksController booksController = Get.find();
 
   TextEditingController _subName = TextEditingController();
   TextEditingController _bookName = TextEditingController();

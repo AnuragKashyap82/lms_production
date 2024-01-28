@@ -21,7 +21,7 @@ class LibraryScreen extends StatefulWidget {
 }
 
 class _LibraryScreenState extends State<LibraryScreen> {
-  final booksController = Get.put(BooksController());
+  BooksController booksController = Get.find();
   bool _isAdmin = false;
   bool _isLibrarian = false;
   bool _isUser = false;

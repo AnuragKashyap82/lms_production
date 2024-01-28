@@ -17,7 +17,7 @@ class TimeTableScreen extends StatefulWidget {
 }
 
 class _TimeTableScreenState extends State<TimeTableScreen> {
-  final userController = Get.put(UserController());
+  final UserController userController = Get.find();
   DateTime now = DateTime.now();
 
   int getInitialIndex(){

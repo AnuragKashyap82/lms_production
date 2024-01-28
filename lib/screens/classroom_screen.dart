@@ -23,7 +23,7 @@ class ClassroomScreen extends StatefulWidget {
 
 class _ClassroomScreenState extends State<ClassroomScreen> {
 
-  final classroomController = Get.put(ClassroomController());
+  ClassroomController classroomController = Get.find();
 
   bool _isAdmin = false;
   bool _isTeacher = false;

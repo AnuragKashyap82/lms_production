@@ -2,9 +2,12 @@ import 'package:eduventure/Model/material_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:internet_file/internet_file.dart';
 import 'package:pdfx/pdfx.dart';
 
+import '../Controller/user_controller.dart';
 import '../utils/colors.dart';
 import '../utils/global_variables.dart';
 
@@ -19,16 +22,31 @@ class MaterialReadScreen extends StatefulWidget {
 }
 
 class _MaterialReadScreenState extends State<MaterialReadScreen> {
+  final UserController userController = Get.find();
+  bool _isLoading = false;
   late PdfController pdfController;
+  late PageController pageController;
+  int _currentPage = 0;
+  int totalPages = 0;
 
-  bool _isAdmin = false;
-  bool _isTeacher = false;
-  bool _isUser = false;
+  Future<void> loadController() async {
+    setState(() {
+      _isLoading = true;
+    });
 
-  loadController() {
-    pdfController = PdfController(
-        document:
-            PdfDocument.openData(InternetFile.get(widget.materialModel.materialUrl)));
+    try {
+      final pdfData = await InternetFile.get(widget.materialModel.materialUrl);
+      pdfController = PdfController(document: PdfDocument.openData(pdfData),);
+      totalPages = (await pdfController.pagesCount)!;
+      print("Anuragd $totalPages");
+    } catch (e) {
+      // Handle error loading PDF, you can show an error message or take appropriate action
+      print('Error loading PDF: $e');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -40,20 +58,6 @@ class _MaterialReadScreenState extends State<MaterialReadScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    if(widget.userType == "admin"){
-      setState(() {
-        _isAdmin = true;
-      });
-    }else if(widget.userType == "teacher"){
-      setState(() {
-        _isTeacher = true;
-      });
-    }else{
-      setState(() {
-        _isUser = true;
-      });
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -70,6 +74,13 @@ class _MaterialReadScreenState extends State<MaterialReadScreen> {
       body: Center(
         child: PdfView(
           controller: pdfController,
+          scrollDirection: Axis.vertical,
+          physics: BouncingScrollPhysics(),
+          onPageChanged: (page) {
+            setState(() {
+              _currentPage = page;
+            });
+          },
         ),
       ),
       floatingActionButton: SpeedDial(
@@ -96,7 +107,7 @@ class _MaterialReadScreenState extends State<MaterialReadScreen> {
         //shape of button
 
         children: [
-          _isTeacher?
+          userController.userData().userType == "teacher"?
           SpeedDialChild(
             //speed dial child
             child: Icon(Icons.edit_outlined),
@@ -105,7 +116,7 @@ class _MaterialReadScreenState extends State<MaterialReadScreen> {
             onTap: (){
               showSnackBar("Teacher", context);
             },
-          ):_isAdmin? SpeedDialChild(
+          ):userController.userData().userType == "admin"? SpeedDialChild(
             //speed dial child
             child: Icon(Icons.edit_outlined),
             backgroundColor: colorPrimary,
@@ -115,7 +126,7 @@ class _MaterialReadScreenState extends State<MaterialReadScreen> {
             },
           ):SpeedDialChild(),
 
-          _isTeacher?
+          userController.userData().userType == "teacher"?
           SpeedDialChild(
             //speed dial child
             child: Icon(Icons.delete_outline),
@@ -124,7 +135,7 @@ class _MaterialReadScreenState extends State<MaterialReadScreen> {
             onTap: (){
 
             },
-          ):_isAdmin?
+          ):userController.userData().userType == "admin"?
           SpeedDialChild(
             //speed dial child
             child: Icon(Icons.delete_outline),

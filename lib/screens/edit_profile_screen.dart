@@ -21,7 +21,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   bool _isLoading = false;
   Uint8List? _image;
   String photoUrl = "";
-  final userController = Get.put(UserController());
+  final UserController userController = Get.find();
 
   pickImage(ImageSource source) async {
     final ImagePicker _imagePicker = ImagePicker();

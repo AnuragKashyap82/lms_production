@@ -18,7 +18,7 @@ class TimeTableTab extends StatefulWidget {
 }
 
 class _TimeTableTabState extends State<TimeTableTab> {
-  final userController = Get.put(UserController());
+  final UserController userController = Get.find();
   final userTimeTableController = Get.put(UsersTimeTableControllerController());
 
 

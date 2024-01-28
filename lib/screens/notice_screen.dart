@@ -7,12 +7,11 @@ import 'package:flutter/services.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import '../Controller/user_controller.dart';
 import '../utils/colors.dart';
 
 class NoticeScreen extends StatefulWidget {
-  final String userType;
-
-  const NoticeScreen({Key? key, required this.userType}) : super(key: key);
+  const NoticeScreen({Key? key}) : super(key: key);
 
   @override
   State<NoticeScreen> createState() => _NoticeScreenState();
@@ -20,26 +19,10 @@ class NoticeScreen extends StatefulWidget {
 
 class _NoticeScreenState extends State<NoticeScreen> {
   final noticeController = Get.put(NoticeController());
-
-  bool _isAdmin = false;
-  bool _isTeacher = false;
-  bool _isUser = false;
+  final UserController userController = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    if (widget.userType == "admin") {
-      setState(() {
-        _isAdmin = true;
-      });
-    } else if (widget.userType == "teacher") {
-      setState(() {
-        _isTeacher = true;
-      });
-    } else {
-      setState(() {
-        _isUser = true;
-      });
-    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorPrimary,
@@ -81,7 +64,6 @@ class _NoticeScreenState extends State<NoticeScreen> {
                     MaterialPageRoute(
                         builder: (context) => NoticeViewScreen(
                               noticeModel: notice,
-                              userType: widget.userType,
                             )));
               },
               child: Container(
@@ -93,7 +75,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
           },
         );
       }),
-      floatingActionButton: _isTeacher
+      floatingActionButton: userController.userData().userType == "teacher"
           ? FloatingActionButton(
               backgroundColor: colorPrimary,
               shape: StadiumBorder(),
@@ -103,7 +85,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
               },
               child: Icon(Icons.add, color: colorBlack,),
             )
-          : _isAdmin
+          : userController.userData().userType == "admin"
               ? FloatingActionButton(
         backgroundColor: colorPrimary,
         shape: StadiumBorder(),

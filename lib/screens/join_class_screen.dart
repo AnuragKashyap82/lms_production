@@ -18,10 +18,10 @@ class JoinClassScreen extends StatefulWidget {
 }
 
 class _JoinClassScreenState extends State<JoinClassScreen> {
-  final classroomController = Get.put(ClassroomController());
+  ClassroomController classroomController = Get.find();
   TextEditingController _classCode = TextEditingController();
 
-  final userController = Get.put(UserController());
+  final UserController userController = Get.find();
 
   bool _isLoading = false;
   var userData = {};

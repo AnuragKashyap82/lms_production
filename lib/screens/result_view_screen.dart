@@ -2,32 +2,49 @@ import 'package:eduventure/Model/result_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:internet_file/internet_file.dart';
 import 'package:pdfx/pdfx.dart';
 
+import '../Controller/user_controller.dart';
 import '../utils/colors.dart';
 import '../utils/global_variables.dart';
 
 class ResultViewScreen extends StatefulWidget {
   final ResultModel resultModel;
-  final String userType;
-  const ResultViewScreen({Key? key, required this.resultModel, required this.userType}) : super(key: key);
+  const ResultViewScreen({Key? key, required this.resultModel}) : super(key: key);
 
   @override
   State<ResultViewScreen> createState() => _ResultViewScreenState();
 }
 
 class _ResultViewScreenState extends State<ResultViewScreen> {
+  final UserController userController = Get.find();
+  bool _isLoading = false;
   late PdfController pdfController;
+  late PageController pageController;
+  int _currentPage = 0;
+  int totalPages = 0;
 
-  bool _isAdmin = false;
-  bool _isTeacher = false;
-  bool _isUser = false;
+  Future<void> loadController() async {
+    setState(() {
+      _isLoading = true;
+    });
 
-  loadController() {
-    pdfController = PdfController(
-        document:
-            PdfDocument.openData(InternetFile.get(widget.resultModel.resultUrl)));
+    try {
+      final pdfData = await InternetFile.get(widget.resultModel.resultUrl);
+      pdfController = PdfController(document: PdfDocument.openData(pdfData),);
+      totalPages = (await pdfController.pagesCount)!;
+      print("Anuragd $totalPages");
+    } catch (e) {
+      // Handle error loading PDF, you can show an error message or take appropriate action
+      print('Error loading PDF: $e');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -40,19 +57,6 @@ class _ResultViewScreenState extends State<ResultViewScreen> {
   @override
   Widget build(BuildContext context) {
 
-    if(widget.userType == "admin"){
-      setState(() {
-        _isAdmin = true;
-      });
-    }else if(widget.userType == "teacher"){
-      setState(() {
-        _isTeacher = true;
-      });
-    }else{
-      setState(() {
-        _isUser = true;
-      });
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -67,8 +71,20 @@ class _ResultViewScreenState extends State<ResultViewScreen> {
         centerTitle: true,
       ),
       body: Center(
-        child: PdfView(
+        child:  _isLoading
+            ? CircularProgressIndicator(
+          strokeWidth: 2,
+          color: colorPrimary,
+        )
+            :PdfView(
           controller: pdfController,
+          scrollDirection: Axis.vertical,
+          physics: BouncingScrollPhysics(),
+          onPageChanged: (page) {
+            setState(() {
+              _currentPage = page;
+            });
+          },
         ),
       ),
       floatingActionButton: SpeedDial(
@@ -95,7 +111,7 @@ class _ResultViewScreenState extends State<ResultViewScreen> {
         //shape of button
 
         children: [
-          _isTeacher?
+          userController.userData().userType == "teacher"?
           SpeedDialChild(
             //speed dial child
             child: Icon(Icons.edit_outlined),
@@ -104,7 +120,7 @@ class _ResultViewScreenState extends State<ResultViewScreen> {
             onTap: (){
               showSnackBar("Teacher", context);
             },
-          ):_isAdmin? SpeedDialChild(
+          ): userController.userData().userType == "admin"? SpeedDialChild(
             //speed dial child
             child: Icon(Icons.edit_outlined),
             backgroundColor: colorPrimary,
@@ -114,7 +130,7 @@ class _ResultViewScreenState extends State<ResultViewScreen> {
             },
           ):SpeedDialChild(),
 
-          _isTeacher?
+          userController.userData().userType == "teacher"?
           SpeedDialChild(
             //speed dial child
             child: Icon(Icons.delete_outline),
@@ -123,7 +139,7 @@ class _ResultViewScreenState extends State<ResultViewScreen> {
             onTap: (){
 
             },
-          ):_isAdmin?
+          ): userController.userData().userType == "admin"?
           SpeedDialChild(
             //speed dial child
             child: Icon(Icons.delete_outline),

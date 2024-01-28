@@ -23,7 +23,7 @@ class _AddNoticeScreenState extends State<AddNoticeScreen> {
   TextEditingController _noticeTitle = TextEditingController();
   TextEditingController _noticeNo = TextEditingController();
 
-  final noticeController = Get.put(NoticeController());
+  NoticeController noticeController = Get.find();
 
   List<String> deviceTokens = [];
   bool _isLodingToken = false;

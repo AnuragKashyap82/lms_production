@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduventure/Controller/result_controller.dart';
-import 'package:eduventure/screens/result_screen.dart';
 import 'package:eduventure/screens/result_view_screen.dart';
 import 'package:eduventure/widgets/result_card.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +22,7 @@ class AllResultScreen extends StatefulWidget {
 
 class _AllResultScreenState extends State<AllResultScreen> {
 
-  final resultController = Get.put(ResultController());
+  ResultController resultController = Get.find();
 
   @override
   void initState() {
@@ -71,7 +69,6 @@ class _AllResultScreenState extends State<AllResultScreen> {
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ResultViewScreen(
                   resultModel: result,
-                  userType: widget.userType,
                 )));
               },
               child: Container(

@@ -26,7 +26,7 @@ class _BookViewScreenState extends State<BookViewScreen> {
   bool _alreadyIssued = false;
 
   FirebaseAuth _auth = FirebaseAuth.instance;
-  final userController = Get.put(UserController());
+  final UserController userController = Get.find();
 
   @override
   void initState() {

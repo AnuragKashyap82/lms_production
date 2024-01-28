@@ -6,7 +6,7 @@ import '../Repository/time_table_repository.dart';
 class UsersTimeTableControllerController extends GetxController {
   static UsersTimeTableControllerController get instance => Get.find();
 
-  final userController = Get.put(UserController());
+  final UserController userController = Get.find();
 
   final isLoading = false.obs;
   final _usersTimeTableRepository = Get.put(TimetableRepository()); // Adjust repository reference

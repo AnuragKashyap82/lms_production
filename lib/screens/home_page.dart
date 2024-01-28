@@ -263,11 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => NoticeScreen(
-                                              userType: userController
-                                                  .userData()
-                                                  .userType,
-                                            )));
+                                        builder: (context) => NoticeScreen()));
                               },
                               child: Container(
                                 margin:  const EdgeInsets.only(left: 12),
