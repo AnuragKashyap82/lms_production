@@ -695,6 +695,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           uploadPhoto();
                         } else {
                           updateUser("${userController.userData().photoUrl}");
+
                         }
                       },
                       style: ElevatedButton.styleFrom(

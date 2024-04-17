@@ -35,9 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   var auth = FirebaseAuth.instance;
   bool _isLoading = false;
-  bool _isAdmin = false;
-  bool _isTeacher = false;
-  bool _isUser = false;
   bool _isDark = false;
 
   void updateToken() async {
@@ -72,39 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  void checkUserType() {
-    if (!userController.isLoading.value) {
-      if (userController.userData().userType == "admin") {
-        setState(() {
-          _isAdmin = true;
-        });
-      } else if (userController.userData().userType == "teacher") {
-        setState(() {
-          _isTeacher = true;
-        });
-      } else {
-        setState(() {
-          _isUser = true;
-        });
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (userController.userData().userType == "admin") {
-      setState(() {
-        _isAdmin = true;
-      });
-    } else if (userController.userData().userType == "teacher") {
-      setState(() {
-        _isTeacher = true;
-      });
-    } else {
-      setState(() {
-        _isUser = true;
-      });
-    }
 
     return Scaffold(
         backgroundColor: colorWhite,
@@ -123,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         strokeWidth: 2, color: colorPrimary),
                   );
                 Future.delayed(Duration.zero, () {
-                  checkUserType(); // Call the function here after the build phase
+
                 });
                 return SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -489,7 +455,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         physics: const BouncingScrollPhysics(),
                               child: Row(
                                 children: [
-                                  _isAdmin
+                                  userController.userData().userType == "admin"
                                       ?
                                   GestureDetector(
                                     onTap: () {
@@ -560,7 +526,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     ),
                                   ):const SizedBox(),
-                                  _isAdmin
+                                  userController.userData().userType == "admin"
                                       ?
                                    const SizedBox(
                                     width: 8,

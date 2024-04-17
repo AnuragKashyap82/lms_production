@@ -1,12 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eduventure/Controller/classroom_controller.dart';
 import 'package:eduventure/screens/classroom_view_screen.dart';
 import 'package:eduventure/screens/create_class_screen.dart';
 import 'package:eduventure/screens/join_class_screen.dart';
 import 'package:eduventure/utils/colors.dart';
-import 'package:eduventure/utils/global_variables.dart';
 import 'package:eduventure/widgets/classroom_card.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
